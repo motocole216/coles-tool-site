@@ -1,0 +1,23 @@
+:root {
+    /* Color Palette */
+    --color-primary: #8B7355;
+    --color-secondary: #D4C4B7;
+    --color-accent: #4A4A45;
+    --color-background: #F5F2EE;
+    --color-text: #2C2C2C;
+
+    /* Typography */
+    --font-primary: 'Open Sans', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 8rem;
+
+    /* Container */
+    --container-width: 1200px;
+    --container-padding: 2rem;
+} 
