@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         getComputedStyle(document.documentElement).getPropertyValue('--scroll-color-5').trim()
     ];
 
+    // Select all elements that should spin
+    const spinElements = document.querySelectorAll('.spin-on-scroll');
+    
     // Function to interpolate between two colors
     const interpolateColor = (color1, color2, factor) => {
         // Convert hex to RGB
@@ -44,27 +47,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return rgb2hex(r, g, b);
     };
 
-    // Function to update background color based on scroll position
-    const updateBackgroundColor = () => {
+    // Function to check if element is in viewport
+    const isInViewport = (element) => {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.bottom >= 0
+        );
+    };
+
+    // Function to calculate rotation based on element position
+    const calculateRotation = (element) => {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const scrollProgress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+        return Math.min(Math.max(scrollProgress * 360, 0), 360); // Full 360-degree rotation
+    };
+
+    // Function to update background color and text rotation based on scroll position
+    const updateEffects = () => {
         const maxScroll = getMaxScroll();
         const currentScroll = window.scrollY;
         const scrollFraction = currentScroll / maxScroll;
         
-        // Calculate which color pair to interpolate between
+        // Update background color
         const numColors = colors.length;
         const interval = 1 / (numColors - 1);
         const colorIndex = Math.min(Math.floor(scrollFraction / interval), numColors - 2);
         const colorFraction = (scrollFraction - colorIndex * interval) / interval;
 
-        // Interpolate between the two colors
         const color = interpolateColor(
             colors[colorIndex],
             colors[colorIndex + 1],
             colorFraction
         );
 
-        // Apply the color with a smooth transition
         document.body.style.backgroundColor = color;
+
+        // Update text rotation for visible elements
+        spinElements.forEach(element => {
+            if (isInViewport(element)) {
+                const rotation = calculateRotation(element);
+                element.style.transform = `rotate(${rotation}deg)`;
+            }
+        });
     };
 
     // Add scroll event listener with throttling
@@ -72,13 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('scroll', () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
-                updateBackgroundColor();
+                updateEffects();
                 ticking = false;
             });
             ticking = true;
         }
     });
 
-    // Initial color update
-    updateBackgroundColor();
+    // Initial update
+    updateEffects();
 }); 
