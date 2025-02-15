@@ -8,6 +8,13 @@
     --color-text: #2C1810;           /* Dark brown */
     --color-text-secondary: #6B4423; /* Medium brown */
     
+    /* Scroll Background Colors */
+    --scroll-color-1: #FAF7F2;      /* Light cream */
+    --scroll-color-2: #E8DFD3;      /* Soft beige */
+    --scroll-color-3: #D4C7B9;      /* Warm taupe */
+    --scroll-color-4: #C2B4A6;      /* Muted brown */
+    --scroll-color-5: #B0A192;      /* Deep taupe */
+    
     /* iOS-style Shadows */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
